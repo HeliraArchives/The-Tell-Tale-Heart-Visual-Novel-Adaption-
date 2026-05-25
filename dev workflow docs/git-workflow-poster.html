@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git Workflow Poster</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d14;
+    --surface: #13131e;
+    --surface2: #1a1a28;
+    --border: #2a2a40;
+    --accent: #c8a4ff;
+    --accent2: #7fffd4;
+    --accent3: #ff8fab;
+    --accent4: #ffd166;
+    --accent5: #f97060;
+    --text: #e8e4f0;
+    --muted: #8a87a0;
+    --code-bg: #0a0a12;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    padding: 48px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    margin-bottom: 56px;
+    position: relative;
+  }
+  .header::before {
+    content: '';
+    display: block;
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    margin: 0 auto 24px;
+  }
+  .header .eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: 54px;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #e8e4f0 0%, var(--accent) 50%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 14px;
+  }
+  .header .sub {
+    font-size: 15px;
+    color: var(--muted);
+    font-weight: 400;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .header::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: var(--accent3);
+    margin: 24px auto 0;
+  }
+
+  /* ── SECTION TITLES ── */
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  /* ── GRID LAYOUT ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .full-width { margin-bottom: 16px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .card.purple::before { background: linear-gradient(90deg, var(--accent), transparent); }
+  .card.green::before  { background: linear-gradient(90deg, var(--accent2), transparent); }
+  .card.pink::before   { background: linear-gradient(90deg, var(--accent3), transparent); }
+  .card.yellow::before { background: linear-gradient(90deg, var(--accent4), transparent); }
+  .card.red::before    { background: linear-gradient(90deg, var(--accent5), transparent); }
+
+  .card h2 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    letter-spacing: 0.3px;
+  }
+  .card.purple h2 { color: var(--accent); }
+  .card.green h2  { color: var(--accent2); }
+  .card.pink h2   { color: var(--accent3); }
+  .card.yellow h2 { color: var(--accent4); }
+  .card.red h2    { color: var(--accent5); }
+
+  /* ── CODE BLOCKS ── */
+  code, .cmd {
+    font-family: 'Space Mono', monospace;
+    font-size: 12.5px;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 8px;
+    color: var(--accent2);
+  }
+
+  .cmd-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 8px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 12.5px;
+    color: var(--accent2);
+    line-height: 1.8;
+  }
+  .cmd-block .prompt { color: var(--accent); user-select: none; }
+  .cmd-block .comment { color: var(--muted); font-style: italic; }
+
+  /* ── THE BIG 5 ── */
+  .big5-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .big5-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 12px;
+    text-align: center;
+    position: relative;
+  }
+  .big5-item .num {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .big5-item .cmd-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--accent2);
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .big5-item .desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .big5-item::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+  }
+  .big5-item:nth-child(1)::before { background: rgba(200,164,255,0.15); border: 1.5px solid var(--accent); }
+  .big5-item:nth-child(2)::before { background: rgba(127,255,212,0.15); border: 1.5px solid var(--accent2); }
+  .big5-item:nth-child(3)::before { background: rgba(255,143,171,0.12); border: 1.5px solid var(--accent3); }
+  .big5-item:nth-child(4)::before { background: rgba(255,209,102,0.12); border: 1.5px solid var(--accent4); }
+  .big5-item:nth-child(5)::before { background: rgba(249,112,96,0.12);  border: 1.5px solid var(--accent5); }
+
+  /* ── FLOW DIAGRAM ── */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    margin: 8px 0;
+  }
+  .flow-step {
+    text-align: center;
+    min-width: 110px;
+    flex: 1;
+  }
+  .flow-step .icon {
+    font-size: 22px;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .flow-step .step-cmd {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .flow-step .step-note {
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .flow-arrow {
+    font-size: 18px;
+    color: var(--border);
+    padding: 0 6px;
+    flex-shrink: 0;
+  }
+
+  /* ── 3 ZONES ── */
+  .zones {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 8px 0;
+  }
+  .zone {
+    padding: 16px;
+    text-align: center;
+  }
+  .zone:nth-child(1) { background: rgba(200,164,255,0.06); border-right: 1px solid var(--border); }
+  .zone:nth-child(2) { background: rgba(127,255,212,0.06); border-right: 1px solid var(--border); }
+  .zone:nth-child(3) { background: rgba(255,209,102,0.06); }
+  .zone .zone-name {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .zone:nth-child(1) .zone-name { color: var(--accent); }
+  .zone:nth-child(2) .zone-name { color: var(--accent2); }
+  .zone:nth-child(3) .zone-name { color: var(--accent4); }
+  .zone .zone-desc { font-size: 10.5px; color: var(--muted); line-height: 1.4; }
+
+  /* ── MISTAKE ROWS ── */
+  .mistake-row {
+    display: grid;
+    grid-template-columns: 1fr 24px 1fr;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .mistake-row:last-child { margin-bottom: 0; }
+  .wrong-box {
+    background: rgba(249,112,96,0.07);
+    border: 1px solid rgba(249,112,96,0.25);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  .wrong-box .label { font-size: 10px; color: var(--accent5); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; font-family: 'Space Mono', monospace; }
+  .fix-box {
+    background: rgba(127,255,212,0.06);
+    border: 1px solid rgba(127,255,212,0.2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+  .fix-box .label { font-size: 10px; color: var(--accent2); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; font-family: 'Space Mono', monospace; }
+  .arrow-mid { text-align: center; font-size: 16px; color: var(--muted); }
+
+  /* ── TIPS LIST ── */
+  .tip-list { list-style: none; }
+  .tip-list li {
+    font-size: 13px;
+    color: var(--text);
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+  .tip-list li:last-child { border-bottom: none; }
+  .tip-list .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .tip-list.green .dot { background: var(--accent2); }
+  .tip-list.yellow .dot { background: var(--accent4); }
+
+  /* ── DAILY ROUTINE BOX ── */
+  .routine {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 10px;
+  }
+  .routine-col { }
+  .routine-col .routine-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ── SMALL BADGE ── */
+  .badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+  }
+  .badge.good { background: rgba(127,255,212,0.12); color: var(--accent2); border: 1px solid rgba(127,255,212,0.25); }
+  .badge.bad  { background: rgba(249,112,96,0.1);  color: var(--accent5); border: 1px solid rgba(249,112,96,0.25); }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 48px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+  }
+  .footer p { font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 8px 0;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: #fff; color: #111; padding: 20px; }
+    .card { border-color: #ccc; background: #fafafa; }
+  }
+
+  /* download button (screen only) */
+  .dl-btn {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 40px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #0d0d14;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 12px 32px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  @media print { .dl-btn { display: none; } }
+</style>
+</head>
+<body>
+
+<button class="dl-btn" onclick="window.print()">⬇ Save / Print as PDF</button>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="eyebrow">Visual Novel Project · Git Reference</div>
+  <h1>Git Workflow<br>Cheat Sheet</h1>
+  <p class="sub">Everything you need to commit, push, and stay sane — built for your daily workflow.</p>
+</div>
+
+<!-- THE BIG 5 -->
+<div class="section-label">The 5 commands to memorize first</div>
+<div class="big5-grid">
+  <div class="big5-item">
+    <span class="num">01</span>
+    <span class="cmd-name">git status</span>
+    <span class="desc">See what changed. Run this constantly.</span>
+  </div>
+  <div class="big5-item">
+    <span class="num">02</span>
+    <span class="cmd-name">git add .</span>
+    <span class="desc">Stage ALL changes for the next save.</span>
+  </div>
+  <div class="big5-item">
+    <span class="num">03</span>
+    <span class="cmd-name">git commit -m ""</span>
+    <span class="desc">Save a named snapshot locally.</span>
+  </div>
+  <div class="big5-item">
+    <span class="num">04</span>
+    <span class="cmd-name">git push</span>
+    <span class="desc">Upload commits to GitHub.</span>
+  </div>
+  <div class="big5-item">
+    <span class="num">05</span>
+    <span class="cmd-name">git pull</span>
+    <span class="desc">Download newest changes from GitHub.</span>
+  </div>
+</div>
+
+<!-- DAILY FLOW -->
+<div class="full-width">
+  <div class="card green">
+    <h2>⟳ The Core Loop (repeat every session)</h2>
+    <div class="flow">
+      <div class="flow-step">
+        <span class="icon">📝</span>
+        <span class="step-cmd">Edit files</span>
+        <span class="step-note">Work on your novel</span>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="icon">🔍</span>
+        <span class="step-cmd">git status</span>
+        <span class="step-note">Check what changed</span>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="icon">📦</span>
+        <span class="step-cmd">git add .</span>
+        <span class="step-note">Stage everything</span>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="icon">💾</span>
+        <span class="step-cmd">git commit -m "msg"</span>
+        <span class="step-note">Save snapshot</span>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="icon">☁️</span>
+        <span class="step-cmd">git push</span>
+        <span class="step-note">Sync to GitHub</span>
+      </div>
+    </div>
+    <div class="cmd-block">
+      <span class="prompt">$ </span>git status<br>
+      <span class="prompt">$ </span>git add .<br>
+      <span class="prompt">$ </span>git commit -m "Updated forest scene assets"<br>
+      <span class="prompt">$ </span>git push<br>
+      <span class="comment">  # or all in one line:</span><br>
+      <span class="prompt">$ </span>git add . &amp;&amp; git commit -m "message" &amp;&amp; git push
+    </div>
+  </div>
+</div>
+
+<!-- 3 ZONES + DAILY ROUTINE -->
+<div class="grid-2">
+
+  <div class="card purple">
+    <h2>🧠 Git's 3 Zones</h2>
+    <div class="zones">
+      <div class="zone">
+        <div class="zone-name">Working Dir</div>
+        <div class="zone-desc">Your actual files. Where you edit and delete things.</div>
+      </div>
+      <div class="zone">
+        <div class="zone-name">Staging Area</div>
+        <div class="zone-desc">Changes you've approved with <code>git add</code>. Ready to commit.</div>
+      </div>
+      <div class="zone">
+        <div class="zone-name">Commit History</div>
+        <div class="zone-desc">Saved snapshots. Live in the hidden <code>.git/</code> folder.</div>
+      </div>
+    </div>
+    <p style="font-size:12px; color:var(--muted); margin-top:10px;">
+      <strong style="color:var(--accent)">Critical:</strong> 
+      <code>git add</code> does NOT upload. <code>git commit</code> does NOT upload. Only <code>git push</code> uploads.
+    </p>
+  </div>
+
+  <div class="card yellow">
+    <h2>📅 Ideal Daily Routine</h2>
+    <div class="routine">
+      <div class="routine-col">
+        <div class="routine-title">When starting work</div>
+        <div class="cmd-block">
+          <span class="prompt">$ </span>git pull<br>
+          <span class="comment">  # get latest first</span>
+        </div>
+      </div>
+      <div class="routine-col">
+        <div class="routine-title">When finishing work</div>
+        <div class="cmd-block">
+          <span class="prompt">$ </span>git add .<br>
+          <span class="prompt">$ </span>git commit -m "msg"<br>
+          <span class="prompt">$ </span>git push
+        </div>
+      </div>
+    </div>
+    <p style="font-size:12px; color:var(--muted); margin-top:10px;">
+      Always <code>git pull</code> before you start. Always <code>git push</code> when you're done.
+    </p>
+  </div>
+
+</div>
+
+<!-- COMMAND REFERENCE -->
+<div class="grid-2">
+
+  <div class="card purple">
+    <h2>📋 Full Command Reference</h2>
+    <div class="cmd-block">
+      <span class="comment"># Check what changed</span><br>
+      <span class="prompt">$ </span>git status<br><br>
+      <span class="comment"># Stage all changes (edits + deletes + new)</span><br>
+      <span class="prompt">$ </span>git add .<br><br>
+      <span class="comment"># Stage only edits + deletes (no new files)</span><br>
+      <span class="prompt">$ </span>git add -u<br><br>
+      <span class="comment"># Save snapshot locally</span><br>
+      <span class="prompt">$ </span>git commit -m "Your message here"<br><br>
+      <span class="comment"># Upload to GitHub</span><br>
+      <span class="prompt">$ </span>git push<br><br>
+      <span class="comment"># Download latest from GitHub</span><br>
+      <span class="prompt">$ </span>git pull
+    </div>
+  </div>
+
+  <div class="card green">
+    <h2>🔧 Useful Extra Commands</h2>
+    <div class="cmd-block">
+      <span class="comment"># See all past commits</span><br>
+      <span class="prompt">$ </span>git log --oneline<br>
+      <span class="comment">  # press Q to exit</span><br><br>
+      <span class="comment"># See exact line-by-line changes</span><br>
+      <span class="prompt">$ </span>git diff<br><br>
+      <span class="comment"># Check linked GitHub repo</span><br>
+      <span class="prompt">$ </span>git remote -v<br><br>
+      <span class="comment"># Clone repo to your PC</span><br>
+      <span class="prompt">$ </span>git clone &lt;url&gt;<br><br>
+      <span class="comment"># Unstage files (undo git add)</span><br>
+      <span class="prompt">$ </span>git restore --staged .<br><br>
+      <span class="comment"># Undo file changes (permanent!)</span><br>
+      <span class="prompt">$ </span>git restore filename.txt
+    </div>
+  </div>
+
+</div>
+
+<!-- COMMON MISTAKES -->
+<div class="full-width">
+  <div class="card red">
+    <h2>⚠ Common Mistakes &amp; Fixes</h2>
+
+    <div class="mistake-row">
+      <div class="wrong-box">
+        <div class="label">Mistake 1</div>
+        <strong>Forgot to stage before committing</strong><br>
+        <span style="color:var(--muted);font-size:11px;">You ran <code>git commit</code> but Git says "no changes added to commit"</span>
+      </div>
+      <div class="arrow-mid">→</div>
+      <div class="fix-box">
+        <div class="label">Fix</div>
+        Run <code>git add .</code> first, then <code>git commit -m "msg"</code>.<br>
+        <span style="color:var(--muted);font-size:11px;">If you deleted files specifically, use <code>git add -u</code> instead.</span>
+      </div>
+    </div>
+
+    <div class="mistake-row">
+      <div class="wrong-box">
+        <div class="label">Mistake 2</div>
+        <strong>Committed but GitHub didn't update</strong><br>
+        <span style="color:var(--muted);font-size:11px;">You can see your commit locally but the GitHub repo looks old</span>
+      </div>
+      <div class="arrow-mid">→</div>
+      <div class="fix-box">
+        <div class="label">Fix</div>
+        You forgot <code>git push</code>. Commit only saves locally. Always push after committing.
+      </div>
+    </div>
+
+    <div class="mistake-row">
+      <div class="wrong-box">
+        <div class="label">Mistake 3</div>
+        <strong>fatal: not a git repository</strong><br>
+        <span style="color:var(--muted);font-size:11px;">Git Bash doesn't know where your project is</span>
+      </div>
+      <div class="arrow-mid">→</div>
+      <div class="fix-box">
+        <div class="label">Fix</div>
+        Right-click inside your project folder → "Open Git Bash Here". You must be inside the folder.
+      </div>
+    </div>
+
+    <div class="mistake-row">
+      <div class="wrong-box">
+        <div class="label">Mistake 4</div>
+        <strong>Deleted files not tracked</strong><br>
+        <span style="color:var(--muted);font-size:11px;">"Changes not staged for commit: deleted: file.mp4" — Git sees the deletion but won't include it</span>
+      </div>
+      <div class="arrow-mid">→</div>
+      <div class="fix-box">
+        <div class="label">Fix</div>
+        <code>git add -u</code> stages all deletions &amp; edits.<br>
+        Or <code>git add .</code> stages everything including new files too.
+      </div>
+    </div>
+
+    <div class="mistake-row">
+      <div class="wrong-box">
+        <div class="label">Mistake 5</div>
+        <strong>Scary wall of terminal text</strong><br>
+        <span style="color:var(--muted);font-size:11px;">Git printed a lot of output and you panicked</span>
+      </div>
+      <div class="arrow-mid">→</div>
+      <div class="fix-box">
+        <div class="label">Fix</div>
+        Read it slowly. Most Git output is just informational. Look for the word "error" or "fatal" — if neither appears, you're fine.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- COMMIT MESSAGES + VN TIPS -->
+<div class="grid-2">
+
+  <div class="card pink">
+    <h2>✏ Commit Message Guide</h2>
+    <p style="font-size:12.5px; color:var(--muted); margin-bottom:12px;">Your commit message is the label on your save point. Make it descriptive.</p>
+    <div style="margin-bottom:10px;">
+      <div style="font-size:11px; color:var(--accent2); margin-bottom:6px; font-family:'Space Mono',monospace; letter-spacing:1px;">GOOD ✓</div>
+      <span class="badge good">Added intro sequence</span>
+      <span class="badge good">Finished chapter 1 dialogue</span>
+      <span class="badge good">Updated UI sprites</span>
+      <span class="badge good">Fixed branching bug in route A</span>
+      <span class="badge good">Removed unused recording files</span>
+      <span class="badge good">Added forest background assets</span>
+    </div>
+    <div>
+      <div style="font-size:11px; color:var(--accent5); margin-bottom:6px; font-family:'Space Mono',monospace; letter-spacing:1px;">BAD ✗</div>
+      <span class="badge bad">stuff</span>
+      <span class="badge bad">changes</span>
+      <span class="badge bad">update</span>
+      <span class="badge bad">aaa</span>
+      <span class="badge bad">fixed it</span>
+      <span class="badge bad">new</span>
+    </div>
+    <p style="font-size:11px; color:var(--muted); margin-top:10px;">Future you will thank present you for good messages.</p>
+  </div>
+
+  <div class="card green">
+    <h2>🌸 Why Git is Perfect for Visual Novels</h2>
+    <ul class="tip-list green">
+      <li><span class="dot"></span>Track every dialogue revision — compare old vs new script versions with <code>git diff</code></li>
+      <li><span class="dot"></span>Safely experiment with story branches without fear of losing your work</li>
+      <li><span class="dot"></span>Restore any old version of a scene with <code>git log --oneline</code> to find the commit</li>
+      <li><span class="dot"></span>Never lose your work — GitHub is your cloud backup</li>
+      <li><span class="dot"></span>Track asset changes: sprites, backgrounds, music — all versioned</li>
+      <li><span class="dot"></span>Commit often. One scene, one commit. Build a clear timeline.</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- ONE-TIME SETUP + WHAT IS GIT BASH -->
+<div class="grid-2">
+
+  <div class="card yellow">
+    <h2>⚙ One-Time Setup (done once)</h2>
+    <div class="cmd-block">
+      <span class="comment"># Set your name</span><br>
+      <span class="prompt">$ </span>git config --global user.name "YourName"<br><br>
+      <span class="comment"># Set your email (same as GitHub)</span><br>
+      <span class="prompt">$ </span>git config --global user.email "you@email.com"<br><br>
+      <span class="comment"># Verify it worked</span><br>
+      <span class="prompt">$ </span>git config --list<br><br>
+      <span class="comment"># Check the folder is a repo</span><br>
+      <span class="prompt">$ </span>git status<br>
+      <span class="comment">  # should say "On branch main"</span>
+    </div>
+  </div>
+
+  <div class="card purple">
+    <h2>💡 What Even Is Git Bash?</h2>
+    <ul class="tip-list">
+      <li><span class="dot"></span><strong>Git</strong> = the version control program. Tracks your files.</li>
+      <li><span class="dot"></span><strong>Git Bash</strong> = a terminal window for Windows. It's just how you type commands to Git. Think of it as the keyboard that talks to Git.</li>
+      <li><span class="dot"></span><strong>CLI</strong> = any text-based command window. Git Bash, PowerShell, Terminal — all CLIs.</li>
+      <li><span class="dot"></span><strong>GitHub</strong> = a website. Completely separate from Git. Just where you store your repo online.</li>
+      <li><span class="dot"></span>Right-click your project folder → "Open Git Bash Here" to always start in the right place.</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>git-workflow · visual novel project · print as PDF to save locally</p>
+</div>
+
+</body>
+</html>
